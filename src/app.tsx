@@ -1,7 +1,15 @@
-import * as ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
+import { StrictMode } from 'react';
+import './index.css';
 
-function render() {
-  ReactDOM.render(<h2>Hello from React!</h2>, document.body);
-}
+const rootElement = document.getElementById('root');
+const root = createRoot(rootElement);
 
-render();
+root.render(
+  <StrictMode>
+    <div>
+      WowTron
+    </div>
+  </StrictMode>,
+);
+
