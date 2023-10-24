@@ -36,4 +36,8 @@ export const rules: Required<ModuleOptions>['rules'] = [
       { loader: 'postcss-loader' },
     ],
   },
+  {
+    test: /\.svg$/,
+    use: ['@svgr/webpack'],
+  },
 ];
