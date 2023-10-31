@@ -1,9 +1,11 @@
 import { app, BrowserWindow,ipcMain } from 'electron';
 import {
   CLOSE_APP,
+  IS_WINDOW_MAXIMIZED,
   MAXIMIZE_APP,
   MAXIMIZE_RESTORE_APP,
   MINIMIZE_APP,
+  UNMAXIMIZE_APP,
   WINDOW_STATE
 } from './constants';
 
@@ -27,10 +29,18 @@ const createWindow = (): void => {
     },
   });
 
-  mainWindow.webContents.send(WINDOW_STATE, 'maximized');
-
   ipcMain.on(MAXIMIZE_APP, () => {
+    mainWindow.webContents.send(WINDOW_STATE, true);
     mainWindow.maximize()
+  });
+
+  ipcMain.on(UNMAXIMIZE_APP, () => {
+    mainWindow.webContents.send(WINDOW_STATE, false);
+    mainWindow.unmaximize()
+  });
+
+  ipcMain.on(IS_WINDOW_MAXIMIZED, (event) => {
+    event.returnValue = mainWindow.isMaximized();
   });
 
   ipcMain.on(MINIMIZE_APP, () => {

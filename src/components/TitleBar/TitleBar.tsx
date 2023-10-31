@@ -1,20 +1,26 @@
-import { HideIcon, FullscreenIcon, CloseIcon } from '../icons';
+import { HideIcon, FullscreenIcon, CloseIcon, ScreenIcon } from '../icons';
 import { memo } from 'react';
+import { useMaximizedListener } from '../../hooks/useMaximizeListener';
 // TODO add types
-const { minimizeApp, closeApp, maximizeApp }  = window.electron;
+const { minimizeApp, closeApp, maximizeApp, unmaximizeApp }  = window.electron;
 
 const TitleBar = () => {
+  const isMaximized = useMaximizedListener();
+
+  console.log(isMaximized, 'usMaximized')
   const buttons = [
     {
       key: 'button-minimize',
       children: <HideIcon />,
       onClick: minimizeApp
-    },{
-      key: 'button-1',
-      children: <FullscreenIcon />,
-      onClick: maximizeApp
-    },{
-      key: 'button-2',
+    },
+    {
+      key: 'button-maximized',
+      children: isMaximized ? <ScreenIcon/> : <FullscreenIcon/>,
+      onClick: isMaximized ? unmaximizeApp : maximizeApp
+    },
+    {
+      key: 'button-close',
       children: <CloseIcon />,
       onClick: closeApp
     },
