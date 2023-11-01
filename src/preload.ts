@@ -9,7 +9,7 @@ import {
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld(
-  "electron", {
+  'electron', {
     minimizeApp: () => ipcRenderer.send(MINIMIZE_APP),
     closeApp: () => ipcRenderer.send(CLOSE_APP),
     maximizeApp: () => ipcRenderer.send(MAXIMIZE_APP),
@@ -17,7 +17,7 @@ contextBridge.exposeInMainWorld(
     addWindowStateListener: (cb: (isMaximized: boolean) => void) => {
       if (typeof cb === 'function') {
         ipcRenderer.on(WINDOW_STATE, (_, isMaximized) => {
-          cb(isMaximized)
+          cb(isMaximized);
         });
       }
     },

@@ -1,13 +1,13 @@
 import { HideIcon, FullscreenIcon, CloseIcon, ScreenIcon } from '../icons';
 import { memo } from 'react';
 import { useMaximizedListener } from '../../hooks/useMaximizeListener';
-// TODO add types
+import styles from './TitleBar.module.css';
+import classNames from 'classnames';
 const { minimizeApp, closeApp, maximizeApp, unmaximizeApp }  = window.electron;
 
 const TitleBar = () => {
   const isMaximized = useMaximizedListener();
 
-  console.log(isMaximized, 'usMaximized')
   const buttons = [
     {
       key: 'button-minimize',
@@ -27,7 +27,7 @@ const TitleBar = () => {
   ]
 
   return (
-    <div className="p-2 bg-grey-light flex justify-end gap-x-2">
+    <div className={classNames('p-2 bg-grey-light flex justify-end gap-x-2', styles.TitleBar)}>
       {
         buttons.map(b => (
           <button
