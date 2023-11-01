@@ -16,7 +16,7 @@ const Button: FC<ButtonProps> = ({ color = 'primary', ...props }) => {
         'disabled:bg-grey text-grey-dark',
         {
           ['text-white bg-purple']: color === 'primary',
-          ['text-purple bg-grey-light']: color === 'primary',
+          ['text-purple bg-grey-light']: color === 'secondary',
         })}
       {...props}
     />
