@@ -11,7 +11,6 @@ root.render(
   <StrictMode>
     <div>
       <TitleBar />
-      <Input />
     </div>
   </StrictMode>,
 );
