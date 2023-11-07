@@ -27,7 +27,8 @@ const TitleBar = () => {
   ]
 
   return (
-    <div className={classNames('p-2 bg-grey-light flex justify-end gap-x-2', styles.TitleBar)}>
+    <div className="p-2 bg-grey-light flex justify-end gap-x-2">
+      <div className={classNames('flex-grow', styles.DragArea)}/>
       {
         buttons.map(b => (
           <button
