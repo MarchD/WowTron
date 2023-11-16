@@ -11,7 +11,7 @@ const Input: FC<InputProps> = ({ error, helperText, label = 'label', className, 
   const id = useId();
 
   return (
-    <div className={className}>
+    <div className={classNames('w-full', { [className]: className })}>
       {label && (
         <label
           htmlFor={id}

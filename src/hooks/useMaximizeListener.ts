@@ -5,7 +5,6 @@ export const useMaximizedListener = () => {
 
   useEffect(() => {
     window.electron.addWindowStateListener((isMaximized: boolean) => {
-      console.log(isMaximized,'test')
       setIsMaximized(isMaximized);
     });
   }, []);
