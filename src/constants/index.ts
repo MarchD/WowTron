@@ -1,3 +1,6 @@
+/* config */
+export const BASE_URL = 'http://localhost:5000'
+
 /* channels */
 export const CLOSE_APP = 'close-app';
 export const MINIMIZE_APP = 'minimize-app';

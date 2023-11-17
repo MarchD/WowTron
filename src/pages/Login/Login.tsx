@@ -3,22 +3,20 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { useForm } from '../../hooks/useForm';
 import { useCallback } from 'react';
-
-interface LoginFormArgs {
-  username: string;
-  password: string;
-}
+import useLogin from '../../hooks/api/useLogin';
+import { LoginRequest } from '../../types';
 
 const Login = () => {
-  const { values, onChange,handleSubmit} = useForm<LoginFormArgs>({
+  const [login] = useLogin();
+  const { values, onChange,handleSubmit} = useForm<LoginRequest>({
     initialValues: {
       username: '',
       password: ''
     }
   });
 
-  const onSubmit = useCallback((data: LoginFormArgs) => {
-    console.log(data, 'data')
+  const onSubmit = useCallback((data: LoginRequest) => {
+    login(data).then(r => console.log(r))
   }, [])
 
   return (
