@@ -16,9 +16,10 @@ export const fetchAPI = async (path: string, options: FetchOptions ) => {
 
   const response = await fetch(`${BASE_URL}${path}`, mergedOptions);
 
-  if (!response.ok) {
-    throw new Error('Failed request');
-  }
+  const parsedResponse = await response.json();
 
-  return await response.json();
+  if (!response.ok) {
+    throw parsedResponse.error;
+  }
+  return parsedResponse;
 };

@@ -1,4 +1,4 @@
-import { app, BrowserWindow,ipcMain } from 'electron';
+import { app, BrowserWindow,ipcMain, session } from 'electron';
 import {
   CLOSE_APP,
   IS_WINDOW_MAXIMIZED,
@@ -18,6 +18,14 @@ if (require('electron-squirrel-startup')) {
 }
 
 const createWindow = (): void => {
+  // TODO find way how to work with localhost
+  session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+    const responseHeaders = { ...details.responseHeaders };
+    delete responseHeaders['Content-Security-Policy']; // Remove CSP header
+
+    callback({ responseHeaders });
+  });
+
   const mainWindow = new BrowserWindow({
     height: 630,
     width: 465,

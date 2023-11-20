@@ -4,10 +4,10 @@ import { LoginRequest, LoginResponse } from '../../types';
 
 export const useLogin = (): [((data: LoginRequest) => Promise<LoginResponse>), {
   isLoading: boolean;
-  error: Error
+  error: string
 }] => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const performLogin = async (data: LoginRequest) => {
     setIsLoading(true);
@@ -18,7 +18,7 @@ export const useLogin = (): [((data: LoginRequest) => Promise<LoginResponse>), {
       return response;
     } catch (error) {
       setIsLoading(false);
-      setError(error as Error);
+      setError(error);
       throw error;
     }
   };

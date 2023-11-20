@@ -15,7 +15,7 @@ server.post('/login', (req, res) => {
     const token = generateRandomToken(); // Implement this function
     res.jsonp({ token });
   } else {
-    res.status(401).jsonp({ error: 'Invalid credentials' });
+    res.status(401).jsonp({ error: 'Wrong username or password' });
   }
 });
 
@@ -28,5 +28,5 @@ server.listen(PORT, () => {
 });
 
 function generateRandomToken() {
-  return Math.random().toString(36);
+  return Math.random().toString(36).substr(2);
 }

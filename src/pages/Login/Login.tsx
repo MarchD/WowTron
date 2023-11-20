@@ -7,7 +7,7 @@ import useLogin from '../../hooks/api/useLogin';
 import { LoginRequest } from '../../types';
 
 const Login = () => {
-  const [login] = useLogin();
+  const [login, { error }] = useLogin();
   const { values, onChange,handleSubmit} = useForm<LoginRequest>({
     initialValues: {
       username: '',
@@ -16,7 +16,9 @@ const Login = () => {
   });
 
   const onSubmit = useCallback((data: LoginRequest) => {
-    login(data).then(r => console.log(r))
+    login(data).then(r => {
+      console.log(r);
+    })
   }, [])
 
   return (
@@ -29,6 +31,7 @@ const Login = () => {
         name="username"
         onChange={onChange}
         className="mb-3"
+        error={Boolean(error)}
       />
 
       <Input
@@ -38,9 +41,14 @@ const Login = () => {
         onChange={onChange}
         className="mb-6"
         type="password"
+        error={Boolean(error)}
       />
 
       <Button className="w-full h-10">Login</Button>
+
+      {error && (
+        <p className="mt-2 text-[13px] text-error">{error}</p>
+      )}
     </form>
   );
 };
