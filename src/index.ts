@@ -17,7 +17,49 @@ if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
-const createWindow = (): void => {
+ipcMain.on(MAXIMIZE_APP, (event) => {
+  const senderWindow = BrowserWindow.fromWebContents(event.sender);
+
+  event.sender.send(WINDOW_STATE, true);
+  senderWindow.maximize()
+});
+
+
+ipcMain.on(UNMAXIMIZE_APP, (event, args) => {
+  const senderWindow = BrowserWindow.fromWebContents(event.sender);
+
+  event.sender.send(WINDOW_STATE, false);
+  senderWindow.unmaximize()
+});
+
+ipcMain.on(IS_WINDOW_MAXIMIZED, (event) => {
+  const senderWindow = BrowserWindow.fromWebContents(event.sender);
+
+  event.returnValue = senderWindow.isMaximized();
+});
+
+ipcMain.on(MINIMIZE_APP, (event) => {
+  const senderWindow = BrowserWindow.fromWebContents(event.sender);
+
+  senderWindow.minimize();
+});
+
+ipcMain.on(CLOSE_APP, (event) => {
+  const senderWindow = BrowserWindow.fromWebContents(event.sender);
+
+  senderWindow.close();
+});
+
+ipcMain.on(MAXIMIZE_RESTORE_APP, (event) => {
+  const win = BrowserWindow.fromWebContents(event.sender);
+  if (win.isMaximized()) {
+    win.unmaximize();
+  } else {
+    win.maximize();
+  }
+});
+
+const createLoginWindow = (): void => {
   // TODO find way how to work with localhost
   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
     const responseHeaders = { ...details.responseHeaders };
@@ -26,7 +68,7 @@ const createWindow = (): void => {
     callback({ responseHeaders });
   });
 
-  const mainWindow = new BrowserWindow({
+  const loginWindow = new BrowserWindow({
     height: 630,
     width: 465,
     frame: false,
@@ -37,48 +79,17 @@ const createWindow = (): void => {
     },
   });
 
-  ipcMain.on(MAXIMIZE_APP, () => {
-    mainWindow.webContents.send(WINDOW_STATE, true);
-    mainWindow.maximize()
-  });
-
-  ipcMain.on(UNMAXIMIZE_APP, () => {
-    mainWindow.webContents.send(WINDOW_STATE, false);
-    mainWindow.unmaximize()
-  });
-
-  ipcMain.on(IS_WINDOW_MAXIMIZED, (event) => {
-    event.returnValue = mainWindow.isMaximized();
-  });
-
-  ipcMain.on(MINIMIZE_APP, () => {
-    mainWindow.minimize();
-  });
-
-  ipcMain.on(CLOSE_APP, () => {
-    mainWindow.close();
-  });
-
-  ipcMain.on(MAXIMIZE_RESTORE_APP, (event) => {
-    const win = BrowserWindow.fromWebContents(event.sender);
-    if (mainWindow.isMaximized()) {
-      win.unmaximize();
-    } else {
-      mainWindow.maximize();
-    }
-  });
-
   // Load the index.html of the app.
-  mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+  loginWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  loginWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', createLoginWindow);
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -93,6 +104,6 @@ app.on('activate', () => {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
+    createLoginWindow();
   }
 });
