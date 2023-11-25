@@ -9,3 +9,4 @@ export const UNMAXIMIZE_APP = 'unmaximize-app';
 export const MAXIMIZE_RESTORE_APP = 'maximize-restore-app';
 export const IS_WINDOW_MAXIMIZED = 'is-window-maximized';
 export const WINDOW_STATE = 'window-state';
+export const OPEN_MAIN_WINDOW = 'open-main-window';

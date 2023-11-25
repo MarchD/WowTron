@@ -5,6 +5,7 @@ import { useForm } from '../../hooks/useForm';
 import { useCallback } from 'react';
 import useLogin from '../../hooks/api/useLogin';
 import { LoginRequest } from '../../types';
+const { openMainWindow } = window.electron;
 
 const Login = () => {
   const [login, { error }] = useLogin();
@@ -16,8 +17,10 @@ const Login = () => {
   });
 
   const onSubmit = useCallback((data: LoginRequest) => {
+    openMainWindow()
+
     login(data).then(r => {
-      console.log(r);
+      openMainWindow()
     })
   }, [])
 

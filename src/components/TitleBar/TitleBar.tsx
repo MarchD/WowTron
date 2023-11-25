@@ -3,7 +3,7 @@ import { memo } from 'react';
 import { useMaximizedListener } from '../../hooks/useMaximizeListener';
 import styles from './TitleBar.module.css';
 import classNames from 'classnames';
-const { minimizeApp, closeApp, maximizeApp, unmaximizeApp }  = window.electron;
+const { minimizeApp, closeApp, maximizeApp, unmaximizeApp } = window.electron;
 
 const TitleBar = () => {
   const isMaximized = useMaximizedListener();

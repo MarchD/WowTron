@@ -5,9 +5,11 @@ import {
   MAXIMIZE_APP,
   MAXIMIZE_RESTORE_APP,
   MINIMIZE_APP,
+  OPEN_MAIN_WINDOW,
   UNMAXIMIZE_APP,
   WINDOW_STATE
 } from './constants';
+import { LOGIN, MAIN } from './constants/routes';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
@@ -16,6 +18,9 @@ declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
+
+let mainWindow;
+let loginWindow;
 
 ipcMain.on(MAXIMIZE_APP, (event) => {
   const senderWindow = BrowserWindow.fromWebContents(event.sender);
@@ -68,7 +73,7 @@ const createLoginWindow = (): void => {
     callback({ responseHeaders });
   });
 
-  const loginWindow = new BrowserWindow({
+  loginWindow = new BrowserWindow({
     height: 630,
     width: 465,
     frame: false,
@@ -80,10 +85,38 @@ const createLoginWindow = (): void => {
   });
 
   // Load the index.html of the app.
-  loginWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+  loginWindow.loadURL(`${MAIN_WINDOW_WEBPACK_ENTRY}#${LOGIN}`);
 
   // Open the DevTools.
   loginWindow.webContents.openDevTools();
+};
+
+
+const createMainWindow = (): void => {
+  // TODO find way how to work with localhost
+  session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+    const responseHeaders = { ...details.responseHeaders };
+    delete responseHeaders['Content-Security-Policy']; // Remove CSP header
+
+    callback({ responseHeaders });
+  });
+
+  mainWindow = new BrowserWindow({
+    height: 630,
+    width: 905,
+    frame: false,
+    icon: 'src/assets/icon.ico',
+    webPreferences: {
+      nodeIntegration: false,
+      preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+    },
+  });
+
+  // Load the index.html of the app.
+  mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+
+  // Open the DevTools.
+  mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
@@ -98,6 +131,14 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
+});
+
+ipcMain.on(OPEN_MAIN_WINDOW, () => {
+  if (loginWindow) {
+    loginWindow.close();
+  }
+
+  createMainWindow();
 });
 
 app.on('activate', () => {

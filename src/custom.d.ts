@@ -8,6 +8,8 @@ interface ElectronBridge {
   unmaximizeApp: () => void;
   addWindowStateListener: (cb: (isMaximized: boolean) => void) => void;
   isWindowMaximized: () => boolean;
+  openMainWindow: () => void;
+  navigateTo: (path: string) => void;
 }
 
 interface Window {
