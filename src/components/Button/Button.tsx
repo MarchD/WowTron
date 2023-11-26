@@ -12,10 +12,11 @@ const Button: FC<ButtonProps> = ({ color = 'primary',className,  ...props }) => 
       'py-2',
       'text-[13px]',
       'rounded-md',
+      'transition-colors',
       'disabled:bg-grey text-grey-dark',
       {
         ['text-white bg-purple']: color === 'primary',
-        ['text-purple bg-grey-light']: color === 'secondary',
+        ['text-purple bg-grey-light hover:bg-grey/30']: color === 'secondary',
         [className]: className
       })}
     {...props}

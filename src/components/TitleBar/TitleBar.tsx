@@ -3,6 +3,7 @@ import { memo } from 'react';
 import { useMaximizedListener } from '../../hooks/useMaximizeListener';
 import styles from './TitleBar.module.css';
 import classNames from 'classnames';
+import ButtonIcon from '../ButtonIcon';
 const { minimizeApp, closeApp, maximizeApp, unmaximizeApp } = window.electron;
 
 const TitleBar = () => {
@@ -27,17 +28,9 @@ const TitleBar = () => {
   ]
 
   return (
-    <div className="p-2 bg-grey-light flex justify-end gap-x-2">
+    <div className="p-2 flex justify-end gap-x-2 bg-white border-b border-b-grey-light">
       <div className={classNames('flex-grow', styles.DragArea)}/>
-      {
-        buttons.map(b => (
-          <button
-            className="p-1 rounded transition-colors hover:bg-grey/30"
-            onClick={minimizeApp}
-            {...b}
-          />
-        ))
-      }
+      {buttons.map(b => <ButtonIcon onClick={minimizeApp} {...b}/>)}
     </div>
   );
 };

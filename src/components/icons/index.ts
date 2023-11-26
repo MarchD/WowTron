@@ -6,3 +6,6 @@ export { default as Logo } from './logo.svg';
 export { default as FileIcon } from './file.svg';
 export { default as FolderIcon } from './folder.svg';
 export { default as EmptyFolderIcon } from './empty-folder.svg';
+export { default as BackIcon } from './back.svg';
+export { default as ForwardIcon } from './folder.svg';
+export { default as RefreshIcon } from './refresh.svg';
