@@ -19,6 +19,18 @@ server.post('/login', (req, res) => {
   }
 });
 
+server.get('/files', (_, res) => {
+  const files = router.db.get('files');
+
+  console.log(files, 'files')
+
+  if (files) {
+    res.jsonp(files);
+  } else {
+    res.status(401).jsonp({ error: 'Something went wrong' });
+  }
+});
+
 server.use(router);
 
 const PORT = 5000;

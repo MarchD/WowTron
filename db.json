@@ -1,5 +1,42 @@
 {
   "users": [
-    { "id": 1, "username": "username", "password": "password123" }
+    {
+      "id": 1,
+      "username": "user",
+      "password": "password"
+    }
+  ],
+  "files": [
+    {
+      "id": 1,
+      "uri": "https://filesamples.com/samples/document/csv/sample4.csv",
+      "size": "7.73 Kb",
+      "created": "2021-08-03T20:37:19.985632"
+    },{
+      "id": 2,
+      "uri": "https://filesamples.com/samples/document/xlsx/sample1.xlsx",
+      "size": "28.69 Kb",
+      "created": "2020-07-03T20:37:19.985654"
+    },{
+      "id": 3,
+      "uri": "https://filesamples.com/samples/document/doc/sample2.doc",
+      "size": "32.00 Kb",
+      "created": "2019-03-22T20:37:19.985661"
+    },{
+      "id": 4,
+      "uri": "https://filesamples.com/samples/document/doc/sample1.doc",
+      "size": "25.46",
+      "created": "2023-04-01T20:37:19.985667"
+    },{
+      "id": 5,
+      "uri": "https://filesamples.com/samples/document/csv/sample3.csv",
+      "size": "723.00 b",
+      "created": "2023-01-31T20:37:19.985673"
+    },{
+      "id": 6,
+      "uri": "https://filesamples.com/samples/document/csv/sample2.csv",
+      "size": "55.56 Kb",
+      "created": "2022-12-08T20:37:19.985679"
+    }
   ]
 }

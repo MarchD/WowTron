@@ -4,5 +4,5 @@ export { default as ScreenIcon } from './screen.svg';
 export { default as CloseIcon } from './close.svg';
 export { default as Logo } from './logo.svg';
 export { default as FileIcon } from './file.svg';
-export { default as FolderIcon } from './folder.svg.svg';
+export { default as FolderIcon } from './folder.svg';
 export { default as EmptyFolderIcon } from './empty-folder.svg';

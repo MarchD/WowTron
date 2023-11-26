@@ -7,6 +7,11 @@ export interface LoginResponse {
   token: string;
 }
 
-export interface User {
-  token: string;
+export interface FileType  {
+  id: number;
+  uri: string;
+  size: string;
+  created: string;
 }
+
+export type FilesResponse = FileType[]
