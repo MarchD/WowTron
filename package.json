@@ -49,6 +49,7 @@
     "@svgr/webpack": "^8.1.0",
     "autoprefixer": "^10.4.16",
     "classnames": "^2.3.2",
+    "dayjs": "^1.11.10",
     "electron-squirrel-startup": "^1.0.0",
     "json-server": "^0.17.4",
     "path-browserify": "^1.0.1",

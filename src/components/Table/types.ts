@@ -60,17 +60,6 @@ interface DataGridDefault<T> extends DataGridBase<T> {
 
 /**
 
- @typedef {object} DataGridWithSections - Represents the props of the data grid with sections
- @property {SectionRow[]} rows - An array of SectionRow objects
- @property {boolean} withSubheaders - A flag indicating if the grid has subheaders
+ @typedef {DataGridDefault} DataGridProps - Represents the props of the data grid
  */
-interface DataGridWithSections<T> extends DataGridBase<T> {
-  rows: SectionRow<T>[]
-  withSubheaders: boolean
-}
-
-/**
-
- @typedef {DataGridDefault|DataGridWithSections} DataGridProps - Represents the props of the data grid
- */
-export type DataGridProps<T> = DataGridDefault<T> | DataGridWithSections<T>
+export type DataGridProps<T> = DataGridDefault<T>

@@ -71,7 +71,6 @@ const TableHeader = memo(
             checked={isSelectedAll}
             indeterminate={isSomeSelected}
             onChange={selectAll}
-            // className={cx('Checkbox')}
           />
         )}
         {columns.map((column) => (
@@ -102,7 +101,7 @@ const TableRow = memo(
     columns: Column<any>[]
     row: Row<any>
   }) => (
-    <div className="flex gap-2 items-center py-1.5 px-3 rounded even:bg-black/5">
+    <div className="flex gap-2 items-center py-0.125 px-3 rounded even:bg-black/5">
       {withCheckbox && <Checkbox checked={checked} onChange={onCheck}/>}
 
       {columns.map((column, index) => (
@@ -123,7 +122,7 @@ const TableCell = memo(
     row,
     field,
     renderCell,
-    width,
+    width = 150,
   }: {
     row: Row<any>
     field: string
@@ -132,11 +131,13 @@ const TableCell = memo(
   }) => {
     const cellValue = row[field]
     const cellKey = `${row.id}-${field}`
-    const style = useMemo(() => ({maxWidth: width}), [width])
+    const style = useMemo(() => ({
+      maxWidth: width,
+    }), [width])
 
     return (
       <div
-        className="min-w-[150px] max-w-[150px] w-full text-grey-dark text-[13px]"
+        className="w-full text-grey-dark text-[13px]"
         key={cellKey}
         style={style}
       >
