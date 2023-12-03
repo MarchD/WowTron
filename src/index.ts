@@ -1,6 +1,7 @@
-import { app, BrowserWindow,ipcMain, session } from 'electron';
+import { app, BrowserWindow,ipcMain, session,dialog } from 'electron';
 import {
   CLOSE_APP,
+  DOWNLOAD_FILES,
   IS_WINDOW_MAXIMIZED,
   MAXIMIZE_APP,
   MAXIMIZE_RESTORE_APP,
@@ -10,6 +11,8 @@ import {
   WINDOW_STATE
 } from './constants';
 import { LOGIN, MAIN } from './constants/routes';
+import https from 'https';
+import fs from 'fs-extra';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
@@ -21,6 +24,21 @@ if (require('electron-squirrel-startup')) {
 
 let mainWindow;
 let loginWindow;
+
+ipcMain.on(DOWNLOAD_FILES, (event, urls) => {
+  urls.forEach((url: string) => {
+    https.get(url, (response) => {
+      // TODO add options?
+      // TODO handle cancel action
+      const filePath = dialog.showSaveDialogSync({});
+      const fileStream = fs.createWriteStream(filePath);
+      response.pipe(fileStream);
+      fileStream.on('finish', () => {
+        fileStream.close();
+      });
+    });
+  });
+});
 
 ipcMain.on(MAXIMIZE_APP, (event) => {
   const senderWindow = BrowserWindow.fromWebContents(event.sender);

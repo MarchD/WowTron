@@ -10,6 +10,7 @@ interface ElectronBridge {
   isWindowMaximized: () => boolean;
   openMainWindow: () => void;
   navigateTo: (path: string) => void;
+  downloadFiles: (urls: string[]) => void;
 }
 
 interface Window {

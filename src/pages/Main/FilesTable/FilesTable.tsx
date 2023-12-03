@@ -1,11 +1,10 @@
-import useFiles from '../../../hooks/api/useFiles';
 import Table from '../../../components/Table';
-import { TableProvider } from '../../../components/Table/TableProvider';
 import { FileType } from '../../../types';
 import { Column } from '../../../components/Table/types';
 import { getFileName } from '../../../utils';
 import { FileIcon } from '../../../components/icons';
 import dayjs from 'dayjs';
+import { FC, memo } from 'react';
 
 const columns: Column<FileType>[] = [
   {
@@ -37,19 +36,18 @@ const columns: Column<FileType>[] = [
   },
 ];
 
-const FilesTable = () => {
-  const { data, isLoading } = useFiles();
+interface FilesTableProps {
+  isLoading?: boolean;
+  data: FileType[]
+}
 
-  return (
-    <TableProvider>
-      <Table<FileType>
-        isLoading={isLoading}
-        checkboxSelection
-        columns={columns}
-        rows={data ?? []}
-      />
-    </TableProvider>
-  );
-};
+const FilesTable: FC<FilesTableProps> = ({ data, isLoading }) => (
+  <Table<FileType>
+    isLoading={isLoading}
+    checkboxSelection
+    columns={columns}
+    rows={data ?? []}
+  />
+);
 
-export default FilesTable;
+export default memo(FilesTable);

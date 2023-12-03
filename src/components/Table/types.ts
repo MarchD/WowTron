@@ -4,14 +4,8 @@
  @property {string|number} id - The unique identifier of the row
  */
 export type Row<T> = T & {
-  id: string | number
+  id: number
 }
-/**
-
- @typedef {object} SectionRow - Represents a row in the data grid with a section
- @property {string} section - The name of the section
- */
-export type SectionRow<T> = Row<T> & {section: string}
 
 /**
 
