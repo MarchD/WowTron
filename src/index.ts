@@ -29,8 +29,12 @@ ipcMain.on(DOWNLOAD_FILES, (event, urls) => {
   urls.forEach((url: string) => {
     https.get(url, (response) => {
       // TODO add options?
-      // TODO handle cancel action
       const filePath = dialog.showSaveDialogSync({});
+
+      if (!filePath) {
+        return;
+      }
+
       const fileStream = fs.createWriteStream(filePath);
       response.pipe(fileStream);
       fileStream.on('finish', () => {
