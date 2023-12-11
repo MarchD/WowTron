@@ -1,4 +1,4 @@
-import { app, BrowserWindow,ipcMain, session,dialog } from 'electron';
+import { app, BrowserWindow,ipcMain, session,dialog, nativeImage, Tray, Menu } from 'electron';
 import {
   CLOSE_APP,
   DOWNLOAD_FILES,
@@ -24,6 +24,7 @@ if (require('electron-squirrel-startup')) {
 
 let mainWindow;
 let loginWindow;
+let tray;
 
 ipcMain.on(DOWNLOAD_FILES, (event, urls) => {
   urls.forEach((url: string) => {
@@ -137,6 +138,32 @@ const createMainWindow = (): void => {
   // Load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
+  // hide application
+  mainWindow.on('close',event =>  {
+    event.preventDefault();
+    mainWindow.hide()
+  })
+
+  const trayIcon = nativeImage.createFromPath('src/assets/icon.ico');
+  tray = new Tray(trayIcon.resize({ width: 16, height: 16 }));
+
+  tray.setIgnoreDoubleClickEvents(true);
+
+  const trayMenu = Menu.buildFromTemplate([
+    {
+      label: 'Quit',
+      click: () => {
+        app.quit()
+      }
+    }
+  ]);
+
+  tray.setContextMenu(trayMenu);
+
+  tray.on('click', () => {
+    mainWindow.show()
+  })
+
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
 };
@@ -153,6 +180,10 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
+});
+
+app.on('before-quit',  () => {
+  tray.destroy();
 });
 
 ipcMain.on(OPEN_MAIN_WINDOW, () => {
