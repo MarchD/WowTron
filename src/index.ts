@@ -13,6 +13,9 @@ import {
 import { LOGIN, MAIN } from './constants/routes';
 import https from 'https';
 import fs from 'fs-extra';
+import archiver from 'archiver';
+import path from 'path';
+import os from 'os';
 
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
@@ -26,23 +29,82 @@ let mainWindow;
 let loginWindow;
 let tray;
 
-ipcMain.on(DOWNLOAD_FILES, (event, urls) => {
+function downloadFile(url: string) {
+  https.get(url, (response) => {
+    const fileName = url.split('/').at(-1);
+    const ext = fileName.split('.').at(-1);
+
+    const filePath = dialog.showSaveDialogSync({
+      defaultPath: fileName,
+      filters: [
+        {
+          name: ext.toUpperCase(),
+          extensions: [ext]
+        }
+      ]
+    });
+
+    if (!filePath) return;
+
+    const fileStream = fs.createWriteStream(filePath);
+    response.pipe(fileStream);
+    fileStream.on('finish', () => {
+      fileStream.close();
+    });
+  });
+}
+
+function downloadAndZipFiles(urls: string[]) {
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'download-'));
+
+  const zipPath = dialog.showSaveDialogSync({ defaultPath: 'download', filters: [
+      { name: 'ZIP', extensions: [ 'zip' ] },
+    ]});
+
+  if (!zipPath) return;
+
+  let downloaded = 0;
+
   urls.forEach((url: string) => {
     https.get(url, (response) => {
-      // TODO add options?
-      const filePath = dialog.showSaveDialogSync({});
+      const fileName = url.split('/').at(-1);
 
-      if (!filePath) {
-        return;
-      }
+      const tempFilePath = path.join(tempDir, fileName);
 
-      const fileStream = fs.createWriteStream(filePath);
+      const fileStream = fs.createWriteStream(tempFilePath);
+
       response.pipe(fileStream);
+
       fileStream.on('finish', () => {
         fileStream.close();
+        if (++downloaded === urls.length) {
+          createZipFile(tempDir, zipPath, () => {
+            fs.rmdirSync(tempDir, { recursive: true  }); // Cleanup
+          });
+        }
       });
     });
   });
+}
+
+function createZipFile(sourceDir: string, zipPath:string, callback: () => void) {
+  const output = fs.createWriteStream(`${zipPath}.zip`);
+  const archive = archiver('zip', { zlib: { level: 9 } });
+
+  output.on('close', callback);
+  archive.pipe(output);
+  archive.directory(sourceDir, false);
+  archive.finalize();
+}
+
+ipcMain.on(DOWNLOAD_FILES, (event, urls) => {
+  if (urls.length === 1) {
+    const [firstUrl] = urls;
+
+    downloadFile(firstUrl);
+  } else {
+    downloadAndZipFiles(urls, event);
+  }
 });
 
 ipcMain.on(MAXIMIZE_APP, (event) => {

@@ -26,6 +26,7 @@
     "@electron-forge/maker-zip": "^6.4.2",
     "@electron-forge/plugin-auto-unpack-natives": "^6.4.2",
     "@electron-forge/plugin-webpack": "^6.4.2",
+    "@types/archiver": "^6.0.2",
     "@types/fs-extra": "^11.0.4",
     "@types/json-server": "^0.14.7",
     "@types/react": "^18.2.26",
@@ -48,6 +49,7 @@
   "dependencies": {
     "@fontsource/inter": "^5.0.15",
     "@svgr/webpack": "^8.1.0",
+    "archiver": "^6.0.1",
     "autoprefixer": "^10.4.16",
     "classnames": "^2.3.2",
     "dayjs": "^1.11.10",
