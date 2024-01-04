@@ -9,9 +9,11 @@ interface MainTableProps {
   data: FileType[];
   isLoading?: boolean;
   handleDownload:(ids:number[])=>void;
+  isFinishDownload?: boolean;
+  onSelectRow?: () => void;
 }
 
-const MainTable: FC<MainTableProps> = ({ handleDownload, isLoading, data }) => {
+const MainTable: FC<MainTableProps> = ({ handleDownload, isLoading, data, isFinishDownload, onSelectRow }) => {
   const { selectedIds = [] } = useTable();
   const selectedCount = useMemo(() => selectedIds.length, [selectedIds]);
 
@@ -25,11 +27,11 @@ const MainTable: FC<MainTableProps> = ({ handleDownload, isLoading, data }) => {
       <div>
         <Header accountInfo="Account"/>
         <div className="mx-6 my-3">
-          <FilesTable isLoading={isLoading} data={data}/>
+          <FilesTable isLoading={isLoading} data={data} onSelectRow={onSelectRow} />
         </div>
       </div>
 
-      <MainFooter selectedCount={selectedCount} onDownload={onDownload}/>
+      <MainFooter isFinishDownload={isFinishDownload} selectedCount={selectedCount} onDownload={onDownload}/>
     </div>
   );
 };

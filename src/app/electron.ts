@@ -3,6 +3,7 @@ import { BrowserWindow, ipcMain, dialog } from 'electron';
 import {
   CLOSE_APP,
   DOWNLOAD_FILES,
+  DOWNLOAD_FILES_FINISH,
   IS_WINDOW_MAXIMIZED,
   MAXIMIZE_APP, MAXIMIZE_RESTORE_APP, MINIMIZE_APP, OPEN_MAIN_WINDOW,
   UNMAXIMIZE_APP,
@@ -16,7 +17,7 @@ import os from 'os';
 import archiver from 'archiver';
 
 
-export const downloadFile = (url: string) => {
+export const downloadFile = (url: string, onFinish?: () => void) => {
   https.get(url, (response) => {
     const fileName = url.split('/').at(-1);
     const ext = fileName.split('.').at(-1);
@@ -37,11 +38,12 @@ export const downloadFile = (url: string) => {
     response.pipe(fileStream);
     fileStream.on('finish', () => {
       fileStream.close();
+      onFinish?.();
     });
   });
 }
 
-export const downloadAndZipFiles = (urls: string[]) => {
+export const downloadAndZipFiles = (urls: string[],onFinish?: () => void) => {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'download-'));
 
   const zipPath = dialog.showSaveDialogSync({ defaultPath: 'download', filters: [
@@ -67,6 +69,7 @@ export const downloadAndZipFiles = (urls: string[]) => {
         if (++downloaded === urls.length) {
           createZipFile(tempDir, zipPath, () => {
             fs.rmdirSync(tempDir, { recursive: true  }); // Cleanup
+            onFinish?.()
           });
         }
       });
@@ -85,13 +88,15 @@ export const createZipFile = (sourceDir: string, zipPath:string, callback: () =>
 }
 
 
-ipcMain.on(DOWNLOAD_FILES, (_, urls) => {
+ipcMain.on(DOWNLOAD_FILES, (event, urls) => {
+  const onSuccess = () => event.sender.send(DOWNLOAD_FILES_FINISH, true);
+
   if (urls.length === 1) {
     const [firstUrl] = urls;
 
-    downloadFile(firstUrl);
+    downloadFile(firstUrl, onSuccess);
   } else {
-    downloadAndZipFiles(urls);
+    downloadAndZipFiles(urls, onSuccess);
   }
 });
 

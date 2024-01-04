@@ -75,8 +75,6 @@ class App {
         preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
       },
     });
-
-    App.mainWindow.webContents.openDevTools();
   }
 
   private static loadMainWindow() {

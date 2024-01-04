@@ -6,7 +6,8 @@ import {
   UNMAXIMIZE_APP,
   WINDOW_STATE,
   OPEN_MAIN_WINDOW,
-  DOWNLOAD_FILES
+  DOWNLOAD_FILES,
+  DOWNLOAD_FILES_FINISH
 } from './constants';
 
 const { contextBridge, ipcRenderer } = require('electron');
@@ -27,5 +28,10 @@ contextBridge.exposeInMainWorld(
     isWindowMaximized: () => ipcRenderer.sendSync(IS_WINDOW_MAXIMIZED),
     openMainWindow: () => ipcRenderer.send(OPEN_MAIN_WINDOW),
     downloadFiles: (urls: string[]) =>  ipcRenderer.send(DOWNLOAD_FILES, urls),
+    onFinishDownloadFiles: (cb: (isSuccess: boolean) => void) => {
+      ipcRenderer.on(DOWNLOAD_FILES_FINISH, (event, isSuccess) => {
+        cb(isSuccess)
+      })
+    }
   }
 );

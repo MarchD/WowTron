@@ -38,15 +38,17 @@ const columns: Column<FileType>[] = [
 
 interface FilesTableProps {
   isLoading?: boolean;
-  data: FileType[]
+  data: FileType[];
+  onSelectRow?: () => void;
 }
 
-const FilesTable: FC<FilesTableProps> = ({ data, isLoading }) => (
+const FilesTable: FC<FilesTableProps> = ({ data, isLoading, onSelectRow }) => (
   <Table<FileType>
     isLoading={isLoading}
     checkboxSelection
     columns={columns}
     rows={data ?? []}
+    onSelectRow={onSelectRow}
   />
 );
 

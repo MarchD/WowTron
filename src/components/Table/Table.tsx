@@ -12,6 +12,7 @@ export const TableComponent = <T extends Record<string, any>>({
   isLoading,
   className,
   checkboxSelection,
+  onSelectRow
 }: DataGridProps<T>) => {
   const {handleRowSelection, selectedRows, selectAllRows} = useTable()
 
@@ -37,7 +38,10 @@ export const TableComponent = <T extends Record<string, any>>({
           row={row}
           columns={columns}
           checked={selectedRows.some((r) => row.id === r.id)}
-          onCheck={() => handleRowSelection(row)}
+          onCheck={() => {
+            handleRowSelection(row);
+            onSelectRow?.();
+          }}
           withCheckbox={checkboxSelection}
         />
       ))}

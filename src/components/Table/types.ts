@@ -32,6 +32,8 @@ export interface Column<T> {
  @property {boolean|undefined} isLoading - A flag indicating if the grid is loading
  @property {string|undefined} className - A class name to be added to the data grid
  @property {boolean|undefined} checkboxSelection - A flag indicating if the grid has checkbox selection enabled
+ @property {function} onSelectRow - A callback function that is executed when a row in the data grid is selected.
+
  */
 interface DataGridBase<T> {
   columns: Column<T>[]
@@ -39,6 +41,7 @@ interface DataGridBase<T> {
   isLoading?: boolean
   className?: string
   checkboxSelection?: boolean
+  onSelectRow?: () => void;
 }
 
 /**
