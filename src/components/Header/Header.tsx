@@ -11,7 +11,7 @@ interface HeaderProps {
 }
 
 const Header: FC<HeaderProps> = ({ onLogout, onBack, onRefresh, accountInfo }) => (
-  <div className="flex justify-between items-center p-2 bg-white shadow-lg">
+  <div className="flex gap-3 justify-between items-center p-2 bg-white shadow-lg">
     <div>
       <ButtonIcon onClick={onBack}>
         <BackIcon/>

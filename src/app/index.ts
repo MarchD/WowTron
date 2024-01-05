@@ -49,6 +49,7 @@ class App {
     App.loginWindow = new BrowserWindow({
       height: 583,
       width: 465,
+      minWidth: 330,
       frame: false,
       icon: ICON,
       webPreferences: {
@@ -68,6 +69,7 @@ class App {
     App.mainWindow = new BrowserWindow({
       height: 630,
       width: 905,
+      minWidth: 600,
       frame: false,
       icon: ICON,
       webPreferences: {
