@@ -12,8 +12,8 @@ interface ElectronBridge {
   navigateTo: (path: string) => void;
   downloadFiles: (urls: string[]) => void;
   onFinishDownloadFiles: (cb: (isSuccess: boolean) => void) => void;
+  onError: (cb: (message: string) => void) => void;
 }
-
 interface Window {
   electron: ElectronBridge;
 }

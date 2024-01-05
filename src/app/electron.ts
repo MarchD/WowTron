@@ -4,6 +4,7 @@ import {
   CLOSE_APP,
   DOWNLOAD_FILES,
   DOWNLOAD_FILES_FINISH,
+  ERROR_TRIGGER,
   IS_WINDOW_MAXIMIZED,
   MAXIMIZE_APP, MAXIMIZE_RESTORE_APP, MINIMIZE_APP, OPEN_MAIN_WINDOW,
   UNMAXIMIZE_APP,
@@ -15,7 +16,6 @@ import fs from 'fs-extra';
 import path from 'path';
 import os from 'os';
 import archiver from 'archiver';
-
 
 export const downloadFile = (url: string, onFinish?: () => void) => {
   https.get(url, (response) => {
@@ -91,6 +91,11 @@ export const createZipFile = (sourceDir: string, zipPath:string, callback: () =>
 ipcMain.on(DOWNLOAD_FILES, (event, urls) => {
   const onSuccess = () => event.sender.send(DOWNLOAD_FILES_FINISH, true);
 
+  if (urls.some((u: string | undefined) => !u)) {
+    event.sender.send(ERROR_TRIGGER, 'Something went wrong, try again')
+  }
+
+  return;
   if (urls.length === 1) {
     const [firstUrl] = urls;
 

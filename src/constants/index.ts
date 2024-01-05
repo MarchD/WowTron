@@ -12,3 +12,4 @@ export const WINDOW_STATE = 'window-state';
 export const OPEN_MAIN_WINDOW = 'open-main-window';
 export const DOWNLOAD_FILES = 'download-files';
 export const DOWNLOAD_FILES_FINISH = 'download-files-finish';
+export const ERROR_TRIGGER = 'error-trigger';

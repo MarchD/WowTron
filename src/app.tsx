@@ -6,6 +6,7 @@ import './index.css';
 import TitleBar from './components/TitleBar';
 import Login from './pages/Login';
 import Main from './pages/Main';
+import ErrorModalProvider from './providers/ModalProvider/ErrorModalProvider';
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
 
@@ -15,17 +16,19 @@ root.render(
       <TitleBar />
 
       <HashRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={<Main/>}
-          />
+        <ErrorModalProvider>
+          <Routes>
+            <Route
+              path="/"
+              element={<Main/>}
+            />
 
-          <Route
-            path={`/${LOGIN}`}
-            element={<Login/>}
-          />
-        </Routes>
+            <Route
+              path={`/${LOGIN}`}
+              element={<Login/>}
+            />
+          </Routes>
+        </ErrorModalProvider>
       </HashRouter>
     </div>
   </StrictMode>,

@@ -11,7 +11,6 @@ const Main = () => {
   const [foldersStack, setFoldersStack] = useState([]);
   const [getFolder, { data: folderData }] = useFolder();
   const [isSuccess, setIsSuccess] = useState<boolean | undefined>(undefined);
-
   const handleDownload = useCallback((ids: number[]) => {
     const files = data?.filter(d => ids.includes(d.id))?.map(f => f.uri)
     downloadFiles(files)

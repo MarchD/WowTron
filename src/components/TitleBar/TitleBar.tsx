@@ -28,7 +28,7 @@ const TitleBar = () => {
   ]
 
   return (
-    <div className="p-2 flex justify-end gap-x-2 bg-white border-b border-b-grey-light">
+    <div className="p-2 h-12 flex justify-end gap-x-2 bg-white border-b border-b-grey-light">
       <div className={classNames('flex-grow', styles.DragArea)}/>
       {buttons.map(b => <ButtonIcon onClick={minimizeApp} {...b}/>)}
     </div>
