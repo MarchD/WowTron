@@ -3,18 +3,18 @@ import Header from '../../components/Header';
 import FilesTable from './FilesTable';
 import MainFooter from './MainFooter';
 import { ItemType } from '../../types';
-import { useTable } from '../../components/Table/context';
 
 interface MainTableProps {
   data: ItemType[];
   isLoading?: boolean;
-  handleDownload:(ids:number[])=>void;
+  handleDownload:() => void;
   isFinishDownload?: boolean;
   onLogout: () => void;
   onSelectRow?: () => void;
   onOpenFolder?: (id: number) => void;
   accountInfo: string[];
   onBack?: () => void;
+  selectedCount: number
 }
 
 const MainTable: FC<MainTableProps> = ({
@@ -26,36 +26,28 @@ const MainTable: FC<MainTableProps> = ({
   isLoading,
   data,
   isFinishDownload,
-  onSelectRow
-}) => {
-  const { selectedIds = [] } = useTable();
-  const selectedCount = useMemo(() => selectedIds.length, [selectedIds]);
-
-  const onDownload = useCallback(() => {
-    handleDownload(selectedIds);
-  }, [selectedIds]);
-
-  return (
-    <div className="flex flex-col justify-between grow">
-      <div>
-        <Header accountInfo={accountInfo} onBack={onBack} onLogout={onLogout}/>
-        <div className="mx-6 my-3">
-          <FilesTable
-            isLoading={isLoading}
-            data={data}
-            onSelectRow={onSelectRow}
-            onOpenFolder={onOpenFolder}
-          />
-        </div>
+  onSelectRow,
+  selectedCount
+}) => (
+  <div className="flex flex-col justify-between grow">
+    <div>
+      <Header accountInfo={accountInfo} onBack={onBack} onLogout={onLogout}/>
+      <div className="mx-6 my-3">
+        <FilesTable
+          isLoading={isLoading}
+          data={data}
+          onSelectRow={onSelectRow}
+          onOpenFolder={onOpenFolder}
+        />
       </div>
-
-      <MainFooter
-        isFinishDownload={isFinishDownload}
-        selectedCount={selectedCount}
-        onDownload={onDownload}
-      />
     </div>
-  );
-};
+
+    <MainFooter
+      isFinishDownload={isFinishDownload}
+      selectedCount={selectedCount}
+      onDownload={handleDownload}
+    />
+  </div>
+);
 
 export default memo(MainTable);

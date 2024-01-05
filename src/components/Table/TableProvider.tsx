@@ -22,12 +22,17 @@ export const TableProvider: FC<{children: ReactNode}> = ({children}) => {
     setSelectedRows((current) => (current.length ? [] : rows))
   }, [])
 
+  const clearSelectedIds = useCallback(() => {
+    setSelectedRows([])
+  }, [])
+
   const value = useMemo(
     () => ({
       selectedRows,
       handleRowSelection,
       selectAllRows,
       selectedIds,
+      clearSelectedIds
     }),
     [selectedRows],
   )

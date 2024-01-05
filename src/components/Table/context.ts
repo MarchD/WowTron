@@ -7,11 +7,13 @@ export const TableContext = createContext<{
   handleRowSelection: (row: Row<any>) => void
   selectAllRows: (rows: Row<any>[]) => void
   selectedIds: number[]
+  clearSelectedIds: () => void
 }>({
   selectedRows: [],
   handleRowSelection: () => {},
   selectAllRows: () => {},
   selectedIds: [],
+  clearSelectedIds: () => {}
 })
 
 export const useTable = () => useContext(TableContext)

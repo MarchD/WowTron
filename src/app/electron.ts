@@ -95,11 +95,11 @@ export const createZipFile = (sourceDir: string, zipPath:string, callback: () =>
 ipcMain.on(DOWNLOAD_FILES, (event, urls) => {
   const onSuccess = () => event.sender.send(DOWNLOAD_FILES_FINISH, true);
 
-  if (urls.some((u: string | undefined) => !u)) {
-    event.sender.send(ERROR_TRIGGER, 'Something went wrong, try again')
+  if (!urls.length || urls.some((u: string | undefined) => !u)) {
+    event.sender.send(ERROR_TRIGGER, 'Something went wrong, try again');
+    return;
   }
 
-  return;
   if (urls.length === 1) {
     const [firstUrl] = urls;
 
