@@ -8,7 +8,8 @@ import {
   OPEN_MAIN_WINDOW,
   DOWNLOAD_FILES,
   DOWNLOAD_FILES_FINISH,
-  ERROR_TRIGGER
+  ERROR_TRIGGER,
+  OPEN_LOGIN_WINDOW
 } from './constants';
 
 const { contextBridge, ipcRenderer } = require('electron');
@@ -28,6 +29,7 @@ contextBridge.exposeInMainWorld(
     },
     isWindowMaximized: () => ipcRenderer.sendSync(IS_WINDOW_MAXIMIZED),
     openMainWindow: () => ipcRenderer.send(OPEN_MAIN_WINDOW),
+    openLoginWindow: () => ipcRenderer.send(OPEN_LOGIN_WINDOW),
     downloadFiles: (urls: string[]) =>  ipcRenderer.send(DOWNLOAD_FILES, urls),
     onFinishDownloadFiles: (cb: (isSuccess: boolean) => void) => {
       ipcRenderer.on(DOWNLOAD_FILES_FINISH, (_, isSuccess) => {

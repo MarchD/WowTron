@@ -4,7 +4,7 @@ import useFiles from '../../hooks/api/useFiles';
 import MainTable from './MainTable';
 import useFolder from '../../hooks/api/useFolder';
 
-const { downloadFiles, onFinishDownloadFiles } = window.electron;
+const { downloadFiles, onFinishDownloadFiles,openLoginWindow } = window.electron;
 
 const Main = () => {
   const { data, isLoading } = useFiles();
@@ -40,11 +40,12 @@ const Main = () => {
 
       setFoldersStack(current => current.splice(0, -1));
     }
-  }, [foldersStack])
+  }, [foldersStack]);
 
   return (
     <TableProvider>
       <MainTable
+        onLogout={openLoginWindow}
         onBack={onBack}
         accountInfo={accountInfo}
         data={(!!foldersStack.length && folderData?.files) || data}

@@ -10,6 +10,7 @@ export const MAXIMIZE_RESTORE_APP = 'maximize-restore-app';
 export const IS_WINDOW_MAXIMIZED = 'is-window-maximized';
 export const WINDOW_STATE = 'window-state';
 export const OPEN_MAIN_WINDOW = 'open-main-window';
+export const OPEN_LOGIN_WINDOW = 'open-login-window';
 export const DOWNLOAD_FILES = 'download-files';
 export const DOWNLOAD_FILES_FINISH = 'download-files-finish';
 export const ERROR_TRIGGER = 'error-trigger';

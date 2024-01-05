@@ -6,7 +6,11 @@ import {
   DOWNLOAD_FILES_FINISH,
   ERROR_TRIGGER,
   IS_WINDOW_MAXIMIZED,
-  MAXIMIZE_APP, MAXIMIZE_RESTORE_APP, MINIMIZE_APP, OPEN_MAIN_WINDOW,
+  MAXIMIZE_APP,
+  MAXIMIZE_RESTORE_APP,
+  MINIMIZE_APP,
+  OPEN_LOGIN_WINDOW,
+  OPEN_MAIN_WINDOW,
   UNMAXIMIZE_APP,
   WINDOW_STATE
 } from '../constants';
@@ -156,3 +160,13 @@ ipcMain.on(OPEN_MAIN_WINDOW, () => {
   App.openMainWindow()
   App.initTray(App.mainWindow)
 })
+
+ipcMain.on(OPEN_LOGIN_WINDOW, () => {
+  if (App.mainWindow) {
+    App.tray.destroy();
+    App.mainWindow.close();
+  }
+  App.openLoginWindow()
+  App.initTray(App.loginWindow)
+});
+

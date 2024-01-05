@@ -21,8 +21,7 @@ class App {
 
   private static onReady() {
     App.removeCSPHeader();
-    App.initLoginWindow();
-    App.loadLoginWindow();
+    App.openLoginWindow();
     App.initTray(App.loginWindow)
   }
 
@@ -62,6 +61,11 @@ class App {
   private static loadLoginWindow() {
     App.loginWindow.loadURL(`${MAIN_WINDOW_WEBPACK_ENTRY}#${LOGIN}`);
     App.loginWindow.webContents.openDevTools();
+  }
+
+  static openLoginWindow() {
+    App.initLoginWindow();
+    App.loadLoginWindow();
   }
 
   // MAIN WINDOW

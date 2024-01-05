@@ -9,6 +9,7 @@ interface ElectronBridge {
   addWindowStateListener: (cb: (isMaximized: boolean) => void) => void;
   isWindowMaximized: () => boolean;
   openMainWindow: () => void;
+  openLoginWindow: () => void;
   navigateTo: (path: string) => void;
   downloadFiles: (urls: string[]) => void;
   onFinishDownloadFiles: (cb: (isSuccess: boolean) => void) => void;
