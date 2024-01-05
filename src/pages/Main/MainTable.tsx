@@ -13,9 +13,10 @@ interface MainTableProps {
   onSelectRow?: () => void;
   onOpenFolder?: (id: number) => void;
   accountInfo: string[];
+  onBack?: () => void;
 }
 
-const MainTable: FC<MainTableProps> = ({ accountInfo, onOpenFolder, handleDownload, isLoading, data, isFinishDownload, onSelectRow }) => {
+const MainTable: FC<MainTableProps> = ({ onBack, accountInfo, onOpenFolder, handleDownload, isLoading, data, isFinishDownload, onSelectRow }) => {
   const { selectedIds = [] } = useTable();
   const selectedCount = useMemo(() => selectedIds.length, [selectedIds]);
 
@@ -26,7 +27,7 @@ const MainTable: FC<MainTableProps> = ({ accountInfo, onOpenFolder, handleDownlo
   return (
     <div className="flex flex-col justify-between grow">
       <div>
-        <Header accountInfo={accountInfo} />
+        <Header accountInfo={accountInfo} onBack={onBack} />
         <div className="mx-6 my-3">
           <FilesTable
             isLoading={isLoading}

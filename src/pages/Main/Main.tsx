@@ -18,7 +18,6 @@ const Main = () => {
 
     onFinishDownloadFiles(setIsSuccess)
   }, [data]);
-
   const onSelectRow = () => {
     setIsSuccess(false);
   }
@@ -30,13 +29,26 @@ const Main = () => {
 
   const accountInfo = useMemo(() => {
     return ['Account', ...foldersStack?.map(f => f?.name) ?? []];
+  }, [foldersStack]);
+
+  const onBack = useCallback(() => {
+    if (!!foldersStack.length) {
+      const previousFolder = foldersStack.at(-2);
+
+      if (previousFolder) {
+        getFolder({folderId: previousFolder.id});
+      }
+
+      setFoldersStack(current => current.splice(0, -1));
+    }
   }, [foldersStack])
 
   return (
     <TableProvider>
       <MainTable
+        onBack={onBack}
         accountInfo={accountInfo}
-        data={folderData?.files ?? data}
+        data={(!!foldersStack.length && folderData?.files) || data}
         handleDownload={handleDownload}
         isLoading={isLoading}
         onSelectRow={onSelectRow}
