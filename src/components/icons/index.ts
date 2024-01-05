@@ -13,3 +13,4 @@ export { default as UnselectedIcon } from './unselected.svg';
 export { default as SelectedIcon } from './selected.svg';
 export { default as PartiallyIcon } from './partially.svg';
 export { default as CheckIcon } from './check.svg';
+export { default as RightArrowIcon } from './right-arrow.svg';

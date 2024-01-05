@@ -1,4 +1,4 @@
-const jsonServer  = require('json-server');
+const jsonServer = require('json-server');
 
 const server = jsonServer.create();
 const router = jsonServer.router('db.json');
@@ -21,11 +21,23 @@ server.post('/login', (req, res) => {
 
 server.get('/files', (_, res) => {
   const files = router.db.get('files');
+  const folders = router.db.get('folders');
 
-  if (files) {
-    res.jsonp(files);
+  if (files && folders) {
+    res.jsonp([...files, ...folders]);
   } else {
     res.status(401).jsonp({ error: 'Something went wrong' });
+  }
+});
+
+server.get('/folders/:folderId', (req, res) => {
+  const { folderId } = req.params;
+  const folder = router.db.get('folders').find({ id: parseInt(folderId) });
+
+  if (folder) {
+    res.jsonp(folder);
+  } else {
+    res.status(404).send('Folder not found');
   }
 });
 

@@ -1,5 +1,5 @@
 import ButtonIcon from '../ButtonIcon';
-import { BackIcon, RefreshIcon } from '../icons';
+import { BackIcon, RefreshIcon, RightArrowIcon } from '../icons';
 import Button from '../Button';
 import { FC, memo } from 'react';
 
@@ -7,7 +7,7 @@ interface HeaderProps {
   onBack?: () => void;
   onRefresh?: () => void;
   onLogout?: () => void;
-  accountInfo?: string;
+  accountInfo?: string[];
 }
 
 const Header: FC<HeaderProps> = ({ onLogout, onBack, onRefresh, accountInfo }) => (
@@ -24,7 +24,11 @@ const Header: FC<HeaderProps> = ({ onLogout, onBack, onRefresh, accountInfo }) =
 
     <p
       className="w-full max-w-[462px] h-8 flex rounded-md items-center justify-center text-[13px] bg-grey-light">
-      {accountInfo}
+      {accountInfo.map((t,i) => {
+        const isFirst = i === 0;
+        const isLast = i === accountInfo.length - 1;
+        return <>{t} {!isFirst || !isLast && <RightArrowIcon/>}</>
+      })}
     </p>
 
     <Button color="secondary" onClick={onLogout}>
