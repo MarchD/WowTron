@@ -17,11 +17,7 @@ const Login = () => {
   });
 
   const onSubmit = useCallback((data: LoginRequest) => {
-    openMainWindow()
-
-    login(data).then(r => {
-      openMainWindow()
-    })
+    login(data).then(openMainWindow);
   }, [])
 
   return (

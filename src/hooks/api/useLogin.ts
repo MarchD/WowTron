@@ -18,7 +18,7 @@ export const useLogin = (): [((data: LoginRequest) => Promise<LoginResponse>), {
       return response;
     } catch (error) {
       setIsLoading(false);
-      setError(error);
+      setError(error.message);
       throw error;
     }
   };
