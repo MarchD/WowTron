@@ -7,7 +7,7 @@ const middlewares = jsonServer.defaults();
 server.use(jsonServer.bodyParser);
 server.use(middlewares);
 
-server.post('/login', (req, res) => {
+server.post('/login', (req: {body: { username: string, password: string }}, res: any) => {
   const { username, password } = req.body;
   const user = router.db.get('users').find({ username, password }).value();
 
@@ -19,7 +19,7 @@ server.post('/login', (req, res) => {
   }
 });
 
-server.get('/files', (_, res) => {
+server.get('/files', (_: unknown, res: any) => {
   const files = router.db.get('files');
   const folders = router.db.get('folders');
 
@@ -30,7 +30,7 @@ server.get('/files', (_, res) => {
   }
 });
 
-server.get('/folders/:folderId', (req, res) => {
+server.get('/folders/:folderId', (req: { params: { folderId: string }}, res: any) => {
   const { folderId } = req.params;
   const folder = router.db.get('folders').find({ id: parseInt(folderId) });
 
