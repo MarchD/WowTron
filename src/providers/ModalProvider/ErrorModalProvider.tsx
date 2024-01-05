@@ -1,6 +1,6 @@
 import React, { useState, createContext,  useContext, useCallback, ReactNode, FC, PropsWithChildren } from 'react';
 import Modal from '../../components/Modal';
-import styles from './ModalProvider.module.css';
+import styles from './ErrorModalProvider.module.css';
 import { CloseIcon } from '../../components/icons';
 import Button from '../../components/Button';
 
