@@ -1,5 +1,6 @@
 declare module '*.svg';
 declare module '*.css';
+declare module '*.ico';
 
 interface ElectronBridge {
   minimizeApp: () => void;

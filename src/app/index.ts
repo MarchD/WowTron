@@ -1,6 +1,7 @@
 import { app, BrowserWindow, session, Tray, nativeImage, Menu } from 'electron';
 import { LOGIN } from '../constants/routes';
-
+import startServer from '../../server';
+import { isDev } from '../utils/isDev';
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
@@ -22,7 +23,9 @@ class App {
   private static onReady() {
     App.removeCSPHeader();
     App.openLoginWindow();
-    App.initTray(App.loginWindow)
+    App.initTray(App.loginWindow);
+
+    startServer();
   }
 
   private static onActivate() {
@@ -60,7 +63,10 @@ class App {
 
   private static loadLoginWindow() {
     App.loginWindow.loadURL(`${MAIN_WINDOW_WEBPACK_ENTRY}#${LOGIN}`);
-    App.loginWindow.webContents.openDevTools();
+
+    if (isDev) {
+      App.loginWindow.webContents.openDevTools();
+    }
   }
 
   static openLoginWindow() {
@@ -85,7 +91,10 @@ class App {
 
   private static loadMainWindow() {
     App.mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
-    App.mainWindow.webContents.openDevTools();
+
+    if (isDev) {
+      App.mainWindow.webContents.openDevTools();
+    }
   }
 
   static openMainWindow() {

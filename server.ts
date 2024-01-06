@@ -1,7 +1,9 @@
 const jsonServer = require('json-server');
 
 const server = jsonServer.create();
-const router = jsonServer.router('db.json');
+import db from './db.json';
+const router = jsonServer.router(db);
+
 const middlewares = jsonServer.defaults();
 
 server.use(jsonServer.bodyParser);
@@ -45,10 +47,12 @@ server.use(router);
 
 const PORT = 5000;
 
-server.listen(PORT, () => {
-  console.log(`JSON Server is running on http://localhost:${PORT}`);
-});
-
 function generateRandomToken() {
   return Math.random().toString(36).substr(2);
 }
+
+export default function startServer() {
+  server.listen(PORT, () => {
+    console.log(`JSON Server is running on http://localhost:${PORT}`);
+  });
+};
